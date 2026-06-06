@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Notheart website 2.0</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart_Kid</title>
+    <link class="page-style" rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3926984725870394" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-brand">NotHeart</div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-container" id="navContainer">
+            <ul class="nav-links">
+                <li><button class="nav-tab active" data-target="home">Home</button></li>
+                <li><button class="nav-tab" data-target="arcade">Arcade Game</button></li>
+                <li><button class="nav-tab" data-target="fun-facts">Fun Facts</button></li>
+                <li><button class="nav-tab" data-target="videos">Videos</button></li>
+                <li><button class="nav-tab" data-target="faq">FAQ</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="app-viewport">
+        
+        <section class="view-panel active" id="home">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>NotHeart</h1>
+                    <p class="hero-bio">Hey, My username is NotHeart. I'm a professional expert at making entertainment, I make some small stuff by coding (like this website), and have fun in the process of it. Feel free to go support me :)</p>
+                    <p class="update-badge"><strong>Website Last Updated:</strong> 6/6/2026</p>
+                    <div class="buttons">
+                        <a href="https://www.youtube.com/channel/UC7UkhRy997l9cqH_SAv_uaQ?sub_confirmation=1" target="_blank" class="button youtube">
+                            <span>YouTube Channel</span>
+                        </a>
+                    </div>
+                    <div class="hero-image">
+                        <img src="https://i.ibb.co/z8XBKV7/Heart-Kid-YT-Icon.png" alt="Heart Kid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="view-panel" id="arcade">
+            <div class="arcade-section">
+                <div class="container">
+                    <h2>Trap Shooting Pro Demo</h2>
+                    <p class="section-desc">
+                        Want to play the full version? Click here to play the 
+                        <a href="https://notheartyt.github.io/game/" target="_blank" style="color: #00bcd4; font-weight: bold; text-decoration: underline;">Real Trap Shooting Game</a> 
+                        instead of the demo! Hit the target cores before they slide below the screen.
+                    </p>
+                    
+                    <div class="arcade-viewport shadow-layer">
+                        <canvas id="gameCanvas" class="game-screen"></canvas>
+                        
+                        <div id="hudWrapper" class="hud-overlay hidden">
+                            <div id="scoreDisplay" class="hud-panel stat-score">SCORE: <span>0</span></div>
+                            <div class="hud-right-group">
+                                <div id="livesDisplay" class="hud-panel stat-lives">LIVES: <span>3</span></div>
+                                <div id="timerDisplay" class="hud-panel stat-timer hidden">TIME: <span>60s</span></div>
+                            </div>
+                        </div>
+
+                        <div id="gameOverlay" class="screen-overlay overlay-menu">
+                            <h3 id="overlayMessage" class="game-title">TRAP SHOOTING PRO</h3>
+                            <p id="overlaySubtext" class="game-subtitle">Select the gamemode you wanna go with!</p>
+                            
+                            <div id="modeSelection" class="menu-actions">
+                                <button id="livesModeButton" class="game-btn btn-classic">Classic Mode</button>
+                                <button id="timedModeButton" class="game-btn btn-timed">Time Attack</button>
+                            </div>
+
+                            <div id="tutorialGuide" class="menu-footers">
+                                <button id="openGuideButton" class="text-link">How to Play</button>
+                                <button id="settingsButton" class="text-link">Settings</button>
+                            </div>
+
+                            <div id="gameEndButtons" class="menu-actions hidden">
+                                <button id="quitToMenuFromEnd" class="game-btn btn-secondary">Main Menu</button>
+                            </div>
+                        </div>
+
+                        <div id="pauseOverlay" class="screen-overlay overlay-pause hidden">
+                            <h4 class="overlay-heading">Paused Game</h4>
+                            <div class="menu-actions vertical">
+                                <button id="resumeButton" class="game-btn btn-classic">Resume</button>
+                                <button id="pauseSettingsButton" class="game-btn btn-secondary">Settings</button>
+                                <button id="quitMenuButton" class="game-btn btn-danger">Main Menu</button>
+                            </div>
+                        </div>
+
+                        <div id="guideOverlay" class="screen-overlay overlay-document hidden">
+                            <h4 class="overlay-heading">Operational Guidelines</h4>
+                            <div class="document-scroll">
+                                <p><strong>Aiming:</strong> Move mouse inside frame boundaries to position crosshair arrays.</p>
+                                <p><strong>Firing:</strong> Click primary tracking keys to activate a target flash vector line.</p>
+                                <p><strong>Mechanics:</strong> Orange hulls must be shot down prior to falling off screen boundaries. Missing them deducts a system health index.</p>
+                                <ul class="powerup-legend">
+                                    <li><span class="p-med">Medic:</span> Reinitializes system integrity steps.</li>
+                                    <li><span class="p-cryo">Cryo:</span> Delays relative time updates.</li>
+                                    <li><span class="p-net">Net:</span> Catches drops safely.</li>
+                                    <li><span class="p-frenz">Frenzy:</span> Speeds up massive spawn events.</li>
+                                </ul>
+                            </div>
+                            <button id="closeGuideButton" class="game-btn btn-secondary">Back to Menu</button>
+                        </div>
+
+                        <div id="settingsOverlay" class="screen-overlay overlay-document hidden">
+                            <h4 class="overlay-heading">System Parameters</h4>
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Aspect Configuration Override:</label>
+                                    <select id="resolutionSelect">
+                                        <option value="auto">Adaptive Panel Resolution</option>
+                                        <option value="360x640">Compact Display Mode</option>
+                                        <option value="1920x1080">1080p Resolution</option>
+                                    </select>
+                                </div>
+                                <div class="form-group-check">
+                                    <label class="check-container">
+                                        <input type="checkbox" id="sfxToggle" checked>
+                                        Enable Audio Synthesizers
+                                    </label>
+                                </div>
+                            </div>
+                            <button id="backToMainButton" class="game-btn btn-classic">Apply Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="arcade-controls">
+                        <button id="pauseButton" class="game-btn btn-warn">Pause Game</button>
+                        <button id="backFromGuideButton" class="game-btn btn-secondary">Clear Viewport</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="view-panel" id="fun-facts">
+            <div class="fun-facts">
+                <div class="container">
+                    <h2>Fun Facts</h2>
+                    <p class="fact-text">My favorite color is blue and I play games with the Nintendo Switch and PC games. I have my very own custom profile picture plushy (Not on sale..... Yet!)</p>
+                    <div class="plushy-wrapper">
+                        <img src="https://i.ibb.co/KjPvr0Bb/F79053-A0-C1-D9-49-CA-B164-3-D0837-A82237.jpg" alt="Plushy" class="plushy-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="view-panel" id="videos">
+            <div class="video-section">
+                <div class="container">
+                    <h2>Videos</h2>
+                    <p class="section-desc">Come check out these amazing videos and random edits!</p>
+                    <div class="video-list">
+                        <div class="video-item">
+                            <div class="video-frame shadow-layer">
+                                <iframe src="https://www.youtube.com/embed/39PCDz8pboE" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <p class="video-title">Video 1</p>
+                        </div>
+                        <div class="video-item">
+                            <div class="video-frame shadow-layer">
+                                <iframe src="https://www.youtube.com/embed/Bm-a0ua-o_o" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <p class="video-title">Video 2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="view-panel" id="faq">
+            <div class="faq">
+                <div class="container">
+                    <h2>Frequently Asked Questions</h2>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <div class="faq-toggle" onclick="this.parentElement.classList.toggle('active')">
+                                <span class="faq-question">How do you make your edits?</span>
+                                <span class="faq-icon"></span>
+                            </div>
+                            <div class="faq-answer"><strong>Capcut.</strong></div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-toggle" onclick="this.parentElement.classList.toggle('active')">
+                                <span class="faq-question">Are you going to add more arcade games to the arcade section of your website?</span>
+                                <span class="faq-icon"></span>
+                            </div>
+                            <div class="faq-answer"><strong>Yes, but it will take a while.</strong></div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-toggle" onclick="this.parentElement.classList.toggle('active')">
+                                <span class="faq-question">What games do you like to play?</span>
+                                <span class="faq-icon"></span>
+                            </div>
+                            <div class="faq-answer"><strong>Sometimes Steam games, Roblox, and various games on the Nintendo Switch.</strong></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.youtube.com/channel/UC7UkhRy997l9cqH_SAv_uaQ" target="_blank" class="social-icon">
+                <img src="https://i.ibb.co/z8XBKV7/Heart-Kid-YT-Icon.png" alt="YouTube Channel" style="border-radius: 50%; filter: none;">
+            </a>
+        </div>
+        <p class="copyright">&copy; 2026 NotHeart. All rights reserved.</p>
+    </footer>
+
+    <script src="game.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
