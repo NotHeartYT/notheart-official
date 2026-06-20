@@ -687,7 +687,8 @@ class TrapShootingGame {
             this.ctx.moveTo(this.crosshair.x - tick, this.crosshair.y); this.ctx.lineTo(this.crosshair.x - gap, this.crosshair.y);
             this.ctx.moveTo(this.crosshair.x + gap, this.crosshair.y); this.ctx.lineTo(this.crosshair.x + tick, this.crosshair.y);
             this.ctx.moveTo(this.crosshair.x, this.crosshair.y - tick); this.ctx.lineTo(this.crosshair.x, this.crosshair.y - gap);
-            this.ctx.moveTo(this.crosshair.x, this.crosshair.y + gap); this.ctx.lineTo(this.crosshair.x, this.baseWidth * 0.016 + gap);
+            // Fixed bottom crosshair tick calculation logic
+            this.ctx.moveTo(this.crosshair.x, this.crosshair.y + gap); this.ctx.lineTo(this.crosshair.x, this.crosshair.y + tick);
             
             this.ctx.strokeStyle = this.cryoActive ? '#06b6d4' : (this.frenzyActive ? '#eab308' : '#38bdf8');
             this.ctx.lineWidth = 1.5;
