@@ -1,47 +1,43 @@
 /* ============================================================================
- * GLOBAL STYLESHEET CONFIGURATIONS & CORE APP ROOT VARIABLES
+ * YOUR ORIGINAL SITE STYLES
  * ============================================================================
  */
-:root {
-    --bg-main: #0f172a;
-    --panel-bg: #1e293b;
-    --panel-border: #334155;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --accent-emerald: #10b981;
-    --accent-cyan: #06b6d4;
-    --accent-amber: #eab308;
-    --accent-rose: #ef4444;
-    --accent-sky: #38bdf8;
-}
 
-body {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    font-family: 'Outfit', sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-
-/* --- SPA LAYOUT PANELS STRUCTURE --- */
+/* App Frame Layouts */
 .view-panel {
     display: none;
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
 }
 
 .view-panel.active {
     display: block;
-    opacity: 1;
 }
 
 .hidden {
     display: none !important;
 }
 
+/* Core Gaming Canvas Element Rules */
+#gameCanvas {
+    display: block;
+    width: 100%;
+    background: #0f172a;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* UI Interactive Components */
+.game-btn {
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.game-btn:active {
+    transform: scale(0.98);
+}
+
+
 /* ============================================================================
- * HIGH-VISIBILITY ARCADE CALL-TO-ACTION BANNER STYLES
+ * NEW HIGH-VISIBILITY ARCADE CALL-TO-ACTION BANNER STYLES
  * ============================================================================
  */
 .game-cta-banner {
@@ -50,7 +46,7 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.05) 100%), var(--panel-bg);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.05) 100%), #1e293b;
     border: 1px solid rgba(16, 185, 129, 0.4);
     border-radius: 12px;
     padding: 24px 32px;
@@ -60,7 +56,7 @@ body {
     overflow: hidden;
 }
 
-/* Ambient dynamic accent light streak across background layer */
+/* Accent light streak across background layer */
 .game-cta-banner::before {
     content: '';
     position: absolute;
@@ -85,7 +81,7 @@ body {
     font-size: 0.7rem;
     font-weight: 800;
     letter-spacing: 0.1em;
-    color: var(--accent-emerald);
+    color: #10b981;
     background-color: rgba(16, 185, 129, 0.15);
     padding: 4px 8px;
     border-radius: 4px;
@@ -97,24 +93,24 @@ body {
     font-family: 'Outfit', sans-serif;
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #f8fafc;
     margin: 0;
 }
 
 .cta-text {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: #94a3b8;
     margin: 0;
     max-width: 540px;
     line-height: 1.4;
 }
 
-/* High-Visibility Interactive CTA Launch Button */
+/* Premium High-Visibility CTA Launch Button */
 .cta-button {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: linear-gradient(135deg, var(--accent-emerald) 0%, #059669 100%) !important;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
     color: #ffffff !important;
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
@@ -132,7 +128,7 @@ body {
 .cta-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6), 0 0 15px rgba(6, 182, 212, 0.4);
-    background: linear-gradient(135deg, var(--accent-emerald) 0%, var(--accent-cyan) 100%) !important;
+    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%) !important;
 }
 
 .cta-button:active {
@@ -147,7 +143,7 @@ body {
     transform: translateX(4px);
 }
 
-/* Fluid responsive collapse rules for handheld display environments */
+/* Responsive collapse for small browser windows/mobile */
 @media (max-width: 768px) {
     .game-cta-banner {
         flex-direction: column;
