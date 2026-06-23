@@ -1,23 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Notheart website 2.0</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="icon" type="image/png" href="/notheart-official/favicon.png">
-
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> NotHeart </title>
-    <link class="page-style" rel="stylesheet" href="styles.css">
+    <title>NotHeart</title>
+    <link rel="icon" type="image/png" href="/notheart-official/favicon.png">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3926984725870394" crossorigin="anonymous"></script>
 </head>
@@ -40,8 +28,13 @@
     </header>
 
     <main class="app-viewport">
-        
+
+        <!-- ============================================================
+             HOME PANEL
+        ============================================================ -->
         <section class="view-panel active" id="home">
+
+            <!-- Hero Block -->
             <div class="hero">
                 <div class="hero-content">
                     <h1>NotHeart</h1>
@@ -57,13 +50,34 @@
                     </div>
                 </div>
             </div>
+
+            <!-- *** IMPROVEMENT 2: Help / Explainer Section *** -->
+            <div class="help-section">
+                <div class="container">
+                    <h2>Need a Hand?</h2>
+                    <p class="section-desc">If you're lost or confused, watch this video to help you explain it.</p>
+                    <div class="help-video-frame shadow-layer">
+                        <iframe
+                            src="https://www.youtube.com/embed/Ray5ZYgf5Ek"
+                            title="Help & Explainer Video"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
+        <!-- ============================================================
+             ARCADE PANEL
+        ============================================================ -->
         <section class="view-panel" id="arcade">
             <div class="arcade-section">
                 <div class="container">
                     <h2>Trap Shooting Pro Demo</h2>
-                    
+
                     <div class="game-cta-banner">
                         <div class="game-cta-content">
                             <span class="cta-badge">Full Experience</span>
@@ -79,10 +93,10 @@
                     <p class="section-desc" style="margin-top: 15px;">
                         Hit the target cores before they slide below the screen.
                     </p>
-                    
+
                     <div class="arcade-viewport shadow-layer">
                         <canvas id="gameCanvas" class="game-screen"></canvas>
-                        
+
                         <div id="hudWrapper" class="hud-overlay hidden">
                             <div id="scoreDisplay" class="hud-panel stat-score">SCORE: <span>0</span></div>
                             <div class="hud-right-group">
@@ -94,7 +108,7 @@
                         <div id="gameOverlay" class="screen-overlay overlay-menu">
                             <h3 id="overlayMessage" class="game-title">TRAP SHOOTING PRO</h3>
                             <p id="overlaySubtext" class="game-subtitle">Select the gamemode you wanna go with!</p>
-                            
+
                             <div id="modeSelection" class="menu-actions">
                                 <button id="livesModeButton" class="game-btn btn-classic">Classic Mode</button>
                                 <button id="timedModeButton" class="game-btn btn-timed">Time Attack</button>
@@ -165,6 +179,9 @@
             </div>
         </section>
 
+        <!-- ============================================================
+             FUN FACTS PANEL
+        ============================================================ -->
         <section class="view-panel" id="fun-facts">
             <div class="fun-facts">
                 <div class="container">
@@ -177,55 +194,189 @@
             </div>
         </section>
 
+        <!-- ============================================================
+             VIDEOS PANEL
+        ============================================================ -->
         <section class="view-panel" id="videos">
             <div class="video-section">
                 <div class="container">
                     <h2>Videos</h2>
                     <p class="section-desc">Come check out these amazing videos and random edits!</p>
-                    <div class="video-list">
-                        <div class="video-item">
-                            <div class="video-frame shadow-layer">
-                                <iframe src="https://www.youtube.com/embed/39PCDz8pboE" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                            <p class="video-title">Video 1</p>
-                        </div>
-                        <div class="video-item">
-                            <div class="video-frame shadow-layer">
-                                <iframe src="https://www.youtube.com/embed/Bm-a0ua-o_o" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                            <p class="video-title">Video 2</p>
-                        </div>
-                    </div>
                 </div>
+
+                <!-- Infinite Scrolling Carousel -->
+                <div class="carousel-wrapper">
+
+                    <!-- Clipping window: overflow hidden -->
+                    <div class="carousel-container" id="carouselViewport">
+
+                        <!--
+                            TRACK: contains [original set] + [exact clone set].
+                            CSS animates translateX(0) → translateX(-50%).
+                            At -50% the clone perfectly overlaps the start of
+                            the original, so the reset to 0 is invisible.
+                        -->
+                        <div class="carousel-track" id="carouselTrack">
+
+                            <!-- ═══ ORIGINAL SET ═══ -->
+                            <div class="carousel-card">
+                                <div class="card-media-bg">
+                                    <div class="video-frame">
+                                        <iframe src="https://www.youtube.com/embed/39PCDz8pboE"
+                                            title="Video 1" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <p class="carousel-video-title">Video 1</p>
+                            </div>
+
+                            <div class="carousel-card">
+                                <div class="card-media-bg">
+                                    <div class="video-frame">
+                                        <iframe src="https://www.youtube.com/embed/Bm-a0ua-o_o"
+                                            title="Video 2" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <p class="carousel-video-title">Video 2</p>
+                            </div>
+
+                            <div class="carousel-card">
+                                <div class="card-media-bg card-media-bg--short">
+                                    <div class="video-frame video-frame--short">
+                                        <iframe src="https://www.youtube.com/embed/6c1UPItmYEA"
+                                            title="Video 3 – Short" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <p class="carousel-video-title">Video 3</p>
+                            </div>
+
+                            <div class="carousel-card">
+                                <div class="card-media-bg">
+                                    <div class="video-frame">
+                                        <iframe src="https://www.youtube.com/embed/Ray5ZYgf5Ek"
+                                            title="Video 4" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <p class="carousel-video-title">Video 4</p>
+                            </div>
+
+                            <!-- ═══ CLONE SET (aria-hidden so screen-readers skip) ═══ -->
+                            <div class="carousel-card" aria-hidden="true">
+                                <div class="card-media-bg">
+                                    <div class="video-frame">
+                                        <iframe src="https://www.youtube.com/embed/39PCDz8pboE"
+                                            title="Video 1 (clone)" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <p class="carousel-video-title">Video 1</p>
+                            </div>
+
+                            <div class="carousel-card" aria-hidden="true">
+                                <div class="card-media-bg">
+                                    <div class="video-frame">
+                                        <iframe src="https://www.youtube.com/embed/Bm-a0ua-o_o"
+                                            title="Video 2 (clone)" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <p class="carousel-video-title">Video 2</p>
+                            </div>
+
+                            <div class="carousel-card" aria-hidden="true">
+                                <div class="card-media-bg card-media-bg--short">
+                                    <div class="video-frame video-frame--short">
+                                        <iframe src="https://www.youtube.com/embed/6c1UPItmYEA"
+                                            title="Video 3 – Short (clone)" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <p class="carousel-video-title">Video 3</p>
+                            </div>
+
+                            <div class="carousel-card" aria-hidden="true">
+                                <div class="card-media-bg">
+                                    <div class="video-frame">
+                                        <iframe src="https://www.youtube.com/embed/Ray5ZYgf5Ek"
+                                            title="Video 4 (clone)" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <p class="carousel-video-title">Video 4</p>
+                            </div>
+
+                        </div><!-- /.carousel-track -->
+                    </div><!-- /.carousel-container -->
+
+                    <!-- Control Panel -->
+                    <div class="carousel-controls" id="carouselControls">
+                        <button class="carousel-btn carousel-btn--step" id="carouselLeft" title="Scroll Left">
+                            <span class="carousel-btn-icon">&#8592;</span>
+                            <span class="carousel-btn-label">Left</span>
+                        </button>
+                        <button class="carousel-btn carousel-btn--pause" id="carouselPause" title="Pause Carousel">
+                            <span class="carousel-btn-icon">&#9646;&#9646;</span>
+                            <span class="carousel-btn-label">Pause</span>
+                        </button>
+                        <button class="carousel-btn carousel-btn--play" id="carouselPlay" title="Play Carousel">
+                            <span class="carousel-btn-icon">&#9654;</span>
+                            <span class="carousel-btn-label">Play</span>
+                        </button>
+                        <button class="carousel-btn carousel-btn--step" id="carouselRight" title="Scroll Right">
+                            <span class="carousel-btn-icon">&#8594;</span>
+                            <span class="carousel-btn-label">Right</span>
+                        </button>
+                    </div><!-- /.carousel-controls -->
+
+                </div><!-- /.carousel-wrapper -->
             </div>
         </section>
 
+        <!-- ============================================================
+             FAQ PANEL — Improvement 1: Accordion Toggle Icons
+        ============================================================ -->
         <section class="view-panel" id="faq">
             <div class="faq">
                 <div class="container">
                     <h2>Frequently Asked Questions</h2>
                     <ul class="faq-list">
+
                         <li class="faq-item">
-                            <div class="faq-toggle" onclick="this.parentElement.classList.toggle('active')">
+                            <!-- onclick removed — handled by JS -->
+                            <div class="faq-toggle">
                                 <span class="faq-question">How do you make your edits?</span>
-                                <span class="faq-icon"></span>
+                                <span class="faq-icon" aria-hidden="true"></span>
                             </div>
                             <div class="faq-answer"><strong>Capcut.</strong></div>
                         </li>
+
                         <li class="faq-item">
-                            <div class="faq-toggle" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="faq-toggle">
                                 <span class="faq-question">Are you going to add more arcade games to the arcade section of your website?</span>
-                                <span class="faq-icon"></span>
+                                <span class="faq-icon" aria-hidden="true"></span>
                             </div>
                             <div class="faq-answer"><strong>Yes, but it will take a while.</strong></div>
                         </li>
+
                         <li class="faq-item">
-                            <div class="faq-toggle" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="faq-toggle">
                                 <span class="faq-question">What games do you like to play?</span>
-                                <span class="faq-icon"></span>
+                                <span class="faq-icon" aria-hidden="true"></span>
                             </div>
                             <div class="faq-answer"><strong>Sometimes Steam games, Roblox, and various games on the Nintendo Switch.</strong></div>
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -243,11 +394,6 @@
     </footer>
 
     <script src="game.js"></script>
-    <script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
-</html>
-    <script  src="./script.js"></script>
-
-  </body>
-  
 </html>
