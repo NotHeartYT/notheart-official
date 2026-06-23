@@ -20,6 +20,9 @@
     --neon-orange-glow: rgba(245, 158, 11, 0.4);
     --neon-red: #ef4444;
     --neon-red-glow: rgba(239, 68, 68, 0.4);
+
+    /* Carousel pink card color */
+    --carousel-card-bg: #FF8DA1;
 }
 
 * {
@@ -292,6 +295,7 @@ h2::after {
 
 .game-screen { width: 100%; height: 100%; display: block; object-fit: contain; }
 .hud-overlay { position: absolute; top: 3%; left: 3%; right: 3%; display: flex; justify-content: space-between; pointer-events: none; z-index: 10; font-family: 'Outfit', sans-serif; font-weight: 700; }
+.shadow-layer { box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25); }
 .hud-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); color: #cbd5e1; padding: 0.4rem 1rem; border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-size: clamp(0.7rem, 2vw, 0.9rem); letter-spacing: 0.5px; }
 .stat-score span { color: #f59e0b; font-weight: 800; }
 .stat-lives span { color: #ef4444; font-weight: 800; }
@@ -357,35 +361,143 @@ h2::after {
 .plushy-wrapper:hover { transform: translateY(-5px); }
 .plushy-img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-/* --- VIDEO EMBED FRAMES GRID --- */
-.video-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    width: 100%;
-    margin-top: 2rem;
-}
-.video-item { width: 100%; }
+/* --- VIDEO EMBED FRAMES (retained for backward compat) --- */
 .video-frame {
     position: relative;
     width: 100%;
     padding-bottom: 56.25%;
     height: 0;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
-    transition: var(--transition-smooth);
-    border: 2px solid #fff;
 }
-.video-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-.video-frame:hover { transform: translateY(-4px); border-color: var(--primary-blue); }
-.video-title { margin-top: 1rem; font-weight: 700; font-size: 1.15rem; color: var(--dark-neutral); }
+.video-frame iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+}
 
-/* --- FAQ PROTOCOLS --- */
-.faq-list { list-style: none; max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
-.faq-list li { background: rgba(255,255,255,0.4); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); padding: 1.5rem; border-radius: var(--radius-lg); box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: var(--transition-smooth); }
-.faq-question { font-size: 1.25rem; font-weight: 700; color: var(--dark-neutral); margin-bottom: 0.5rem; text-align: left; }
-.faq-answer { color: #475569; text-align: left; }
+/* Short-form 9:16 video (YouTube Shorts) */
+.video-frame--short {
+    padding-bottom: 177.78%; /* 16:9 inverted */
+    max-height: 340px;
+}
+
+/* --- FAQ PROTOCOLS (IMPROVEMENT 1) --- */
+.faq-list {
+    list-style: none;
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.faq-item.active {
+    background: rgba(255,255,255,0.55);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* Toggle Row — clickable header */
+.faq-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.4rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.faq-question {
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+    font-weight: 700;
+    color: var(--dark-neutral);
+    text-align: left;
+    flex: 1;
+    line-height: 1.35;
+}
+
+/* Icon circle — shows + or − */
+.faq-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--dark-neutral);
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: background 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* The actual glyph is rendered via pseudo-element so it can animate */
+    position: relative;
+}
+
+/* Plus sign (default / closed) */
+.faq-icon::before {
+    content: '+';
+    position: absolute;
+    transition: opacity 0.2s ease, transform 0.3s ease;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* Minus sign (open) */
+.faq-icon::after {
+    content: '−';
+    position: absolute;
+    transition: opacity 0.2s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+}
+
+/* Active state: show minus, hide plus, rotate circle color */
+.faq-item.active .faq-icon {
+    background: var(--primary-blue);
+    transform: rotate(0deg);
+}
+
+.faq-item.active .faq-icon::before {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.6);
+}
+
+.faq-item.active .faq-icon::after {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* Smooth answer drawer */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+                padding  0.3s ease;
+    padding: 0 1.5rem;
+    color: #475569;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 300px;
+    padding: 0 1.5rem 1.4rem 1.5rem;
+}
 
 /* --- RE-STRUCTURED GLOBAL FOOTER --- */
 footer {
@@ -436,7 +548,7 @@ footer {
 
 
 /* ============================================================================
- * ADDED MODIFICATION: NEW HIGHLIGHT ARCADE LINK BANNER STYLING
+ * ARCADE LINK BANNER STYLING
  * ============================================================================
  */
 .game-cta-banner {
@@ -487,7 +599,6 @@ footer {
     line-height: 1.4;
 }
 
-/* Eye-catching CTA Launch Button matching your theme links */
 .cta-button {
     display: inline-flex;
     align-items: center;
@@ -511,15 +622,9 @@ footer {
     background: linear-gradient(135deg, #00ecff 0%, #00bcd4 100%);
 }
 
-.cta-icon {
-    transition: transform 0.2s ease;
-}
+.cta-icon { transition: transform 0.2s ease; }
+.cta-button:hover .cta-icon { transform: translateX(3px); }
 
-.cta-button:hover .cta-icon {
-    transform: translateX(3px);
-}
-
-/* Layout collapse adaptation for compact and mobile layout rules */
 @media (max-width: 768px) {
     .game-cta-banner {
         flex-direction: column;
@@ -527,11 +632,267 @@ footer {
         text-align: center;
         padding: 20px;
     }
-    .game-cta-content {
-        align-items: center;
-    }
-    .cta-button {
-        justify-content: center;
-        width: 100%;
-    }
+    .game-cta-content { align-items: center; }
+    .cta-button { justify-content: center; width: 100%; }
+}
+
+
+/* ============================================================================
+ * IMPROVEMENT 2 — HELP / EXPLAINER SECTION (Home Panel)
+ * ============================================================================ */
+.help-section {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 41, 59, 0.92) 100%);
+    backdrop-filter: blur(20px);
+    padding: clamp(3rem, 8vh, 6rem) 0;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Override h2 text color for the dark help section */
+.help-section h2 {
+    color: #fff;
+    background: linear-gradient(to right, #ffffff, #93c5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.help-section h2::after {
+    background: rgba(255,255,255,0.5);
+}
+
+.help-section .section-desc {
+    color: #cbd5e1;
+}
+
+/* Responsive 16:9 frame, capped at 800px wide, glass-styled */
+.help-video-frame {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: min(56.25%, 450px);
+    height: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,0.18);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45),
+                0 0 0 1px rgba(255,255,255,0.06) inset;
+    transition: var(--transition-smooth);
+}
+
+.help-video-frame:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 32px 72px rgba(0,0,0,0.55),
+                0 0 0 1px rgba(147,197,253,0.25) inset;
+    border-color: rgba(147,197,253,0.4);
+}
+
+.help-video-frame iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+}
+
+
+/* ============================================================================
+ * INFINITE SCROLLING VIDEO CAROUSEL
+ *
+ * TECHNIQUE: CSS @keyframes moves translateX(0) → translateX(-50%).
+ * The track contains [original 4 cards] + [identical clone 4 cards].
+ * Total track width = 2× one set. Shifting by -50% moves exactly one
+ * full set length. The reset from -50% back to 0 is pixel-perfect
+ * invisible because the clone set is visually identical to the original.
+ * No JS math, no offsetWidth, no race conditions. Pure CSS loop.
+ * JS is used only to: pause/play, and nudge offset on manual steps.
+ * ============================================================================ */
+
+@keyframes carousel-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Outer section wrapper */
+.carousel-wrapper {
+    width: 100%;
+    padding-bottom: clamp(2rem, 5vh, 4rem);
+    position: relative;
+}
+
+/* Clipping window — never let the track overflow visibly */
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 1.5rem 0 1rem 0;
+    /* Soft fade masks at edges so cards enter/exit gracefully */
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 6%,
+        black 94%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 6%,
+        black 94%,
+        transparent 100%
+    );
+}
+
+/*
+ * THE TRACK
+ * – display:flex so cards sit in a single row
+ * – width: max-content lets it be as wide as all 8 cards
+ * – animation drives the seamless scroll
+ * – animation-play-state is toggled by JS for pause/play
+ * – transition on transform enables smooth manual stepping
+ */
+.carousel-track {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 28px;
+    width: max-content;
+    will-change: transform;
+    animation: carousel-scroll 28s linear infinite;
+    animation-play-state: running;
+}
+
+/* When JS adds .is-paused the CSS animation freezes in place */
+.carousel-track.is-paused {
+    animation-play-state: paused;
+}
+
+/*
+ * When JS is driving a manual step it replaces the CSS animation
+ * with a JS-controlled translateX via the .js-controlled class.
+ * The transition gives the step a smooth ease.
+ */
+.carousel-track.js-controlled {
+    animation: none;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Individual card */
+.carousel-card {
+    flex: 0 0 auto;
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Pink media card background */
+.card-media-bg {
+    width: 100%;
+    background-color: var(--carousel-card-bg);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18),
+                0 0 0 3px rgba(255,255,255,0.6) inset;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-media-bg:hover {
+    transform: translateY(-5px) scale(1.015);
+    box-shadow: 0 18px 40px rgba(255, 141, 161, 0.45),
+                0 0 0 3px rgba(255,255,255,0.8) inset;
+}
+
+/* Video iframe inside the pink card */
+.carousel-card .video-frame {
+    border-radius: calc(var(--radius-md) - 2px);
+    overflow: hidden;
+}
+
+/* Title below each card */
+.carousel-video-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark-neutral);
+    text-align: center;
+}
+
+/* ---- Carousel Control Panel ---- */
+.carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 0 5%;
+    flex-wrap: wrap;
+}
+
+.carousel-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.65rem 1.4rem;
+    border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.6);
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    color: #fff;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.carousel-btn-icon { font-size: 1.1rem; line-height: 1; }
+
+.carousel-btn--step {
+    background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+.carousel-btn--step:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+    background: linear-gradient(135deg, #475569 0%, #334155 100%);
+}
+
+.carousel-btn--pause {
+    background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+}
+.carousel-btn--pause:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(245, 158, 11, 0.55);
+}
+
+.carousel-btn--play {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+.carousel-btn--play:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(16, 185, 129, 0.55);
+}
+
+.carousel-btn:active { transform: translateY(0) scale(0.97); }
+
+.carousel-btn--pause.is-active-ctrl,
+.carousel-btn--play.is-active-ctrl {
+    outline: 3px solid rgba(255,255,255,0.8);
+    outline-offset: 2px;
+}
+
+/* ---- Responsive Carousel ---- */
+@media (max-width: 860px) {
+    .carousel-card { width: 300px; }
+    .carousel-track { animation-duration: 22s; }
+}
+
+@media (max-width: 540px) {
+    .carousel-card { width: 240px; }
+    .carousel-track { animation-duration: 18s; }
+    .carousel-btn-label { display: none; }
+    .carousel-btn { padding: 0.65rem 1rem; }
 }
