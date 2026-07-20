@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NotHeart</title>
+    <title>NotHeart Official | Personal Gaming Hub, Socials & Arcade Games</title>
+    <meta name="description" content="Welcome to the official home of NotHeart. Explore my personal gaming hub, play free online arcade games, watch entertainment edits, and connect with my community links.">
+    
     <link rel="icon" type="image/png" href="/notheart-official/favicon.png">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
@@ -30,16 +32,12 @@
 
     <main class="app-viewport">
 
-        <!-- ============================================================
-             HOME PANEL
-        ============================================================ -->
         <section class="view-panel active" id="home">
 
-            <!-- Hero Block -->
             <div class="hero">
                 <div class="hero-content">
-                    <h1>NotHeart</h1>
-                    <p class="hero-bio">Hey, My username is NotHeart. I'm a professional expert at making entertainment, I make some small stuff by coding (like this website), and have fun in the process of it. Feel free to go support me :)</p>
+                    <h1>NotHeart Official Hub</h1>
+                    <p class="hero-bio">Hey, My username is NotHeart. I'm a professional expert at making entertainment content, creating small coding projects (like this website), and building a fun community. Check out my personal gaming hub, try out the arcade, and feel free to go support me :)</p>
                     <p class="update-badge"><strong>Website Last Updated:</strong> 6/20/2026</p>
                     <div class="buttons">
                         <a href="https://www.youtube.com/channel/UC7UkhRy997l9cqH_SAv_uaQ?sub_confirmation=1" target="_blank" class="button youtube">
@@ -52,11 +50,10 @@
                 </div>
             </div>
 
-            <!-- *** IMPROVEMENT 2: Help / Explainer Section *** -->
             <div class="help-section">
                 <div class="container">
                     <h2>Need a Hand?</h2>
-                    <p class="section-desc">If you're lost or confused, watch this video to help you explain it.</p>
+                    <p class="section-desc">If you're lost or confused, watch this video to help explain how to navigate the site.</p>
                     <div class="help-video-frame shadow-layer">
                         <iframe
                             src="https://www.youtube.com/embed/Ray5ZYgf5Ek"
@@ -64,16 +61,13 @@
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
-                        </iframe>
+                        Clone/Stream Hub Video Content Viewer</iframe>
                     </div>
                 </div>
             </div>
 
         </section>
 
-        <!-- ============================================================
-             ARCADE PANEL
-        ============================================================ -->
         <section class="view-panel" id="arcade">
             <div class="arcade-section">
                 <div class="container">
@@ -180,14 +174,11 @@
             </div>
         </section>
 
-        <!-- ============================================================
-             FUN FACTS PANEL
-        ============================================================ -->
         <section class="view-panel" id="fun-facts">
             <div class="fun-facts">
                 <div class="container">
                     <h2>Fun Facts</h2>
-                    <p class="fact-text">My favorite color is blue and I play games with the Nintendo Switch and PC games. I have my very own custom profile picture plushy (Not on sale..... Yet!)</p>
+                    <p class="fact-text">My favorite color is blue and I play games on the Nintendo Switch and PC. I have my very own custom profile picture plushy (Not on sale..... Yet!)</p>
                     <div class="plushy-wrapper">
                         <img src="https://i.ibb.co/KjPvr0Bb/F79053-A0-C1-D9-49-CA-B164-3-D0837-A82237.jpg" alt="Plushy" class="plushy-img">
                     </div>
@@ -195,31 +186,17 @@
             </div>
         </section>
 
-        <!-- ============================================================
-             VIDEOS PANEL
-        ============================================================ -->
         <section class="view-panel" id="videos">
             <div class="video-section">
                 <div class="container">
-                    <h2>Videos</h2>
-                    <p class="section-desc">Come check out these amazing videos and random edits!</p>
+                    <h2>Videos & Edits</h2>
+                    <p class="section-desc">Come check out these amazing gaming videos and random entertainment edits!</p>
                 </div>
 
-                <!-- Infinite Scrolling Carousel -->
                 <div class="carousel-wrapper">
-
-                    <!-- Clipping window: overflow hidden -->
                     <div class="carousel-container" id="carouselViewport">
-
-                        <!--
-                            TRACK: contains [original set] + [exact clone set].
-                            CSS animates translateX(0) → translateX(-50%).
-                            At -50% the clone perfectly overlaps the start of
-                            the original, so the reset to 0 is invisible.
-                        -->
                         <div class="carousel-track" id="carouselTrack">
 
-                            <!-- ═══ ORIGINAL SET ═══ -->
                             <div class="carousel-card">
                                 <div class="card-media-bg">
                                     <div class="video-frame">
@@ -268,7 +245,6 @@
                                 <p class="carousel-video-title">Video 4</p>
                             </div>
 
-                            <!-- ═══ CLONE SET (aria-hidden so screen-readers skip) ═══ -->
                             <div class="carousel-card" aria-hidden="true">
                                 <div class="card-media-bg">
                                     <div class="video-frame">
@@ -317,10 +293,9 @@
                                 <p class="carousel-video-title">Video 4</p>
                             </div>
 
-                        </div><!-- /.carousel-track -->
-                    </div><!-- /.carousel-container -->
+                        </div>
+                    </div>
 
-                    <!-- Control Panel -->
                     <div class="carousel-controls" id="carouselControls">
                         <button class="carousel-btn carousel-btn--step" id="carouselLeft" title="Scroll Left">
                             <span class="carousel-btn-icon">&#8592;</span>
@@ -338,15 +313,12 @@
                             <span class="carousel-btn-icon">&#8594;</span>
                             <span class="carousel-btn-label">Right</span>
                         </button>
-                    </div><!-- /.carousel-controls -->
+                    </div>
 
-                </div><!-- /.carousel-wrapper -->
+                </div>
             </div>
         </section>
 
-        <!-- ============================================================
-             FAQ PANEL — Improvement 1: Accordion Toggle Icons
-        ============================================================ -->
         <section class="view-panel" id="faq">
             <div class="faq">
                 <div class="container">
@@ -354,9 +326,8 @@
                     <ul class="faq-list">
 
                         <li class="faq-item">
-                            <!-- onclick removed — handled by JS -->
                             <div class="faq-toggle">
-                                <span class="faq-question">How do you make your edits?</span>
+                                <span class="faq-question">How do you make your video edits?</span>
                                 <span class="faq-icon" aria-hidden="true"></span>
                             </div>
                             <div class="faq-answer"><strong>Capcut.</strong></div>
@@ -364,15 +335,15 @@
 
                         <li class="faq-item">
                             <div class="faq-toggle">
-                                <span class="faq-question">Are you going to add more arcade games to the arcade section of your website?</span>
+                                <span class="faq-question">Are you going to add more arcade games to the website?</span>
                                 <span class="faq-icon" aria-hidden="true"></span>
                             </div>
-                            <div class="faq-answer"><strong>Yes, but it will take a while.</strong></div>
+                            <div class="faq-answer"><strong>Yes, but it will take a while to code.</strong></div>
                         </li>
 
                         <li class="faq-item">
                             <div class="faq-toggle">
-                                <span class="faq-question">What games do you like to play?</span>
+                                <span class="faq-question">What gaming systems do you like to play?</span>
                                 <span class="faq-icon" aria-hidden="true"></span>
                             </div>
                             <div class="faq-answer"><strong>Sometimes Steam games, Roblox, and various games on the Nintendo Switch.</strong></div>
