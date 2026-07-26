@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.addEventListener('click', () => {
             const targetPage = tab.getAttribute('data-target');
 
+            // FIX: If this is an external link (like Socials) without a data-target, ignore panel swapping
+            if (!targetPage) {
+                if (navContainer && navContainer.classList.contains('active')) {
+                    navContainer.classList.remove('active');
+                }
+                return;
+            }
+
             navTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
@@ -52,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------------------
-    // IMPROVEMENT 1: FAQ ACCORDION — smooth toggle with animated +/− icon
+    // FAQ ACCORDION — smooth toggle with animated +/− icon
     // -------------------------------------------------------------------------
     initFaqAccordion();
 
@@ -73,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * ============================================================================
- * IMPROVEMENT 1: FAQ ACCORDION CONTROLLER
+ * FAQ ACCORDION CONTROLLER
  * Handles smooth expand / collapse with animated +/− icon swap.
  * ============================================================================
  */
@@ -104,30 +112,6 @@ function initFaqAccordion() {
 /**
  * ============================================================================
  * INFINITE CAROUSEL ENGINE  — CSS-keyframe edition
- *
- * AUTO-SCROLL TECHNIQUE (zero JS math, zero measurement):
- *   The HTML track contains [original 4 cards] + [clone 4 cards].
- *   A CSS @keyframes animation moves the track from translateX(0)
- *   to translateX(-50%). Because the track is exactly twice as wide
- *   as one card-set, -50% = one full set width. When the animation
- *   loops back to 0% the visual position is identical — seamless.
- *
- * PAUSE / PLAY:
- *   Toggle animation-play-state via the CSS class `.is-paused`.
- *
- * MANUAL LEFT / RIGHT STEPS:
- *   When the user clicks a step button:
- *   1. Read the current rendered translateX from getComputedStyle
- *      (this captures the live CSS animation position without needing
- *      to store any JS offset state).
- *   2. Add/subtract the step amount.
- *   3. Clamp into the valid range [0, -halfWidth] using modulo so we
- *      never escape the seamless zone.
- *   4. Switch to `.js-controlled` mode (CSS animation: none +
- *      CSS transition for smooth easing), apply the new translateX.
- *   5. After the step transition ends, hand control back to the CSS
- *      animation by removing `.js-controlled` and syncing the
- *      animation-delay so it resumes from the correct position.
  * ============================================================================
  */
 class InfiniteCarousel {
@@ -152,55 +136,32 @@ class InfiniteCarousel {
         this._updateControlHighlight();
     }
 
-    // -----------------------------------------------------------------------
-    // Read the current animation duration from computed style so responsive
-    // CSS overrides (22s on tablet, 18s on mobile) are respected.
-    // -----------------------------------------------------------------------
     _readAnimDuration() {
         const raw = getComputedStyle(this.track).animationDuration;
-        // raw is e.g. "28s" or "22s"
         return (parseFloat(raw) || 28) * 1000;
     }
 
-    // -----------------------------------------------------------------------
-    // Return the track's current translateX in px by reading the live
-    // computed transform matrix. Works whether CSS animation or JS is driving.
-    // -----------------------------------------------------------------------
     _getCurrentTranslateX() {
         const matrix = new DOMMatrix(getComputedStyle(this.track).transform);
-        return matrix.m41; // translateX component
+        return matrix.m41;
     }
 
-    // -----------------------------------------------------------------------
-    // The half-width is the loop boundary: track.scrollWidth / 2.
-    // Because the track contains exactly 2 equal sets this equals one set.
-    // -----------------------------------------------------------------------
     _getHalfWidth() {
         return this.track.scrollWidth / 2;
     }
 
-    // -----------------------------------------------------------------------
-    // PAUSE — freeze the CSS animation in place
-    // -----------------------------------------------------------------------
     pause() {
-        if (this.isJsControlled) return; // step in progress, ignore
+        if (this.isJsControlled) return;
         this.isPlaying = false;
         this.track.classList.add('is-paused');
         this._updateControlHighlight();
     }
 
-    // -----------------------------------------------------------------------
-    // PLAY — resume the CSS animation from where it was frozen.
-    // We sync the animation-delay so it continues from the current position
-    // rather than jumping back to the start of the keyframe.
-    // -----------------------------------------------------------------------
     play() {
         if (this.isJsControlled) return;
         this.isPlaying = true;
 
         if (this.track.classList.contains('is-paused')) {
-            // Compute how far through the animation we currently are,
-            // then set a negative delay so it picks up at that progress.
             this._syncAnimationToCurrentPosition();
         }
 
@@ -208,72 +169,48 @@ class InfiniteCarousel {
         this._updateControlHighlight();
     }
 
-    // -----------------------------------------------------------------------
-    // Sync animation-delay to the current visual position so that removing
-    // .is-paused resumes from exactly the right frame.
-    // -----------------------------------------------------------------------
     _syncAnimationToCurrentPosition() {
         const halfWidth  = this._getHalfWidth();
-        const currentX   = this._getCurrentTranslateX(); // negative px
-        // progress 0→1 maps translateX 0 → -halfWidth
+        const currentX   = this._getCurrentTranslateX();
         const progress   = Math.abs(currentX) / halfWidth;
         const elapsed    = progress * this.ANIM_DURATION_MS;
-        // Negative delay tells the browser the animation "already ran" by
-        // that many ms, so it starts mid-cycle.
         this.track.style.animationDelay = `-${elapsed}ms`;
     }
 
-    // -----------------------------------------------------------------------
-    // MANUAL STEP — smoothly nudge the track by STEP_PX, staying in range.
-    // -----------------------------------------------------------------------
     _step(direction) {
-        // direction: +1 = right (scroll track left), -1 = left (scroll track right)
-        if (this.isJsControlled) return; // ignore if a step is already running
+        if (this.isJsControlled) return;
 
         const halfWidth  = this._getHalfWidth();
         if (halfWidth === 0) return;
 
-        // Freeze CSS animation and snapshot the current position
         const wasPlaying = this.isPlaying;
         this.track.classList.add('is-paused');
 
-        let currentX = this._getCurrentTranslateX(); // px, e.g. -240.5
-
-        // Target after the step
+        let currentX = this._getCurrentTranslateX();
         let targetX = currentX - direction * this.STEP_PX;
 
-        // Clamp into [-halfWidth, 0] using modulo so we never escape
-        // the seamless zone. E.g. if targetX = 10 (past 0) we wrap to
-        // the equivalent position one half-width in.
         if (targetX > 0) {
-            targetX = targetX - halfWidth; // wrap from right edge to equivalent in left half
+            targetX = targetX - halfWidth;
         } else if (targetX < -halfWidth) {
-            targetX = targetX + halfWidth; // wrap from left edge to equivalent in right half
+            targetX = targetX + halfWidth;
         }
 
-        // Switch to JS control: remove CSS animation, add transition class
         this.isJsControlled = true;
         this.track.classList.add('js-controlled');
-        this.track.style.animationDelay = ''; // clear any delay we set
+        this.track.style.animationDelay = '';
 
-        // Force a reflow so the browser registers the class change before
-        // we set the transform (without this the transition won't fire).
         void this.track.offsetWidth;
 
-        // Apply the target position — CSS transition handles the ease
         this.track.style.transform = `translateX(${targetX}px)`;
 
-        // After the transition completes, hand back to CSS animation
         const onDone = () => {
             this.track.removeEventListener('transitionend', onDone);
 
-            // Sync animation delay to resume from the position we just landed on
             const halfW    = this._getHalfWidth();
             const progress = Math.abs(targetX) / halfW;
             const elapsed  = progress * this._readAnimDuration();
             this.track.style.animationDelay = `-${elapsed}ms`;
 
-            // Remove JS control — CSS animation takes over again
             this.track.style.transform = '';
             this.track.classList.remove('js-controlled');
             this.isJsControlled = false;
@@ -281,15 +218,11 @@ class InfiniteCarousel {
             if (wasPlaying) {
                 this.track.classList.remove('is-paused');
             }
-            // If user had paused, leave it paused (is-paused stays)
         };
 
         this.track.addEventListener('transitionend', onDone, { once: true });
     }
 
-    // -----------------------------------------------------------------------
-    // BIND CONTROLS
-    // -----------------------------------------------------------------------
     _bindControls() {
         this.pauseBtn.addEventListener('click', () => this.pause());
         this.playBtn.addEventListener('click',  () => this.play());
@@ -307,7 +240,6 @@ class InfiniteCarousel {
 /**
  * ============================================================================
  * PART 2: TRAP SHOOTING PRO GAME ENGINE (BALANCED POWER-UPS MATRIX)
- * (Original code — fully preserved, no changes)
  * ============================================================================
  */
 class TrapShootingGame {
