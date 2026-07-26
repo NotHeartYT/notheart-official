@@ -103,6 +103,35 @@ body {
     border-color: var(--primary-blue);
 }
 
+/* --- EXTERNAL SOCIALS NAV TAB STYLING --- */
+.nav-tab-external {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #fbbf24; /* Bright Gold */
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    background: rgba(251, 191, 36, 0.1);
+}
+
+.nav-tab-external:hover {
+    background: rgba(251, 191, 36, 0.25);
+    color: #ffd700;
+    border-color: #ffd700;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+    transform: translateY(-2px);
+}
+
+.external-icon {
+    font-size: 0.9em;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+.nav-tab-external:hover .external-icon {
+    transform: translate(2px, -2px);
+}
+
 /* Responsive Menu Elements */
 .menu-toggle {
     display: none;
@@ -444,7 +473,6 @@ h2::after {
     font-weight: 700;
     line-height: 1;
     transition: background 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    /* The actual glyph is rendered via pseudo-element so it can animate */
     position: relative;
 }
 
@@ -546,11 +574,9 @@ footer {
     .screen-overlay { padding: 1rem; }
 }
 
-
 /* ============================================================================
  * ARCADE LINK BANNER STYLING
- * ============================================================================
- */
+ * ============================================================================ */
 .game-cta-banner {
     display: flex;
     flex-direction: row;
@@ -636,7 +662,6 @@ footer {
     .cta-button { justify-content: center; width: 100%; }
 }
 
-
 /* ============================================================================
  * IMPROVEMENT 2 — HELP / EXPLAINER SECTION (Home Panel)
  * ============================================================================ */
@@ -649,7 +674,6 @@ footer {
     border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-/* Override h2 text color for the dark help section */
 .help-section h2 {
     color: #fff;
     background: linear-gradient(to right, #ffffff, #93c5fd);
@@ -665,7 +689,6 @@ footer {
     color: #cbd5e1;
 }
 
-/* Responsive 16:9 frame, capped at 800px wide, glass-styled */
 .help-video-frame {
     position: relative;
     width: 100%;
@@ -695,17 +718,8 @@ footer {
     border: none;
 }
 
-
 /* ============================================================================
  * INFINITE SCROLLING VIDEO CAROUSEL
- *
- * TECHNIQUE: CSS @keyframes moves translateX(0) → translateX(-50%).
- * The track contains [original 4 cards] + [identical clone 4 cards].
- * Total track width = 2× one set. Shifting by -50% moves exactly one
- * full set length. The reset from -50% back to 0 is pixel-perfect
- * invisible because the clone set is visually identical to the original.
- * No JS math, no offsetWidth, no race conditions. Pure CSS loop.
- * JS is used only to: pause/play, and nudge offset on manual steps.
  * ============================================================================ */
 
 @keyframes carousel-scroll {
@@ -713,19 +727,16 @@ footer {
     100% { transform: translateX(-50%); }
 }
 
-/* Outer section wrapper */
 .carousel-wrapper {
     width: 100%;
     padding-bottom: clamp(2rem, 5vh, 4rem);
     position: relative;
 }
 
-/* Clipping window — never let the track overflow visibly */
 .carousel-container {
     width: 100%;
     overflow: hidden;
     padding: 1.5rem 0 1rem 0;
-    /* Soft fade masks at edges so cards enter/exit gracefully */
     -webkit-mask-image: linear-gradient(
         to right,
         transparent 0%,
@@ -742,14 +753,6 @@ footer {
     );
 }
 
-/*
- * THE TRACK
- * – display:flex so cards sit in a single row
- * – width: max-content lets it be as wide as all 8 cards
- * – animation drives the seamless scroll
- * – animation-play-state is toggled by JS for pause/play
- * – transition on transform enables smooth manual stepping
- */
 .carousel-track {
     display: flex;
     flex-direction: row;
@@ -761,22 +764,15 @@ footer {
     animation-play-state: running;
 }
 
-/* When JS adds .is-paused the CSS animation freezes in place */
 .carousel-track.is-paused {
     animation-play-state: paused;
 }
 
-/*
- * When JS is driving a manual step it replaces the CSS animation
- * with a JS-controlled translateX via the .js-controlled class.
- * The transition gives the step a smooth ease.
- */
 .carousel-track.js-controlled {
     animation: none;
     transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Individual card */
 .carousel-card {
     flex: 0 0 auto;
     width: 380px;
@@ -786,7 +782,6 @@ footer {
     gap: 12px;
 }
 
-/* Pink media card background */
 .card-media-bg {
     width: 100%;
     background-color: var(--carousel-card-bg);
@@ -803,13 +798,11 @@ footer {
                 0 0 0 3px rgba(255,255,255,0.8) inset;
 }
 
-/* Video iframe inside the pink card */
 .carousel-card .video-frame {
     border-radius: calc(var(--radius-md) - 2px);
     overflow: hidden;
 }
 
-/* Title below each card */
 .carousel-video-title {
     font-size: 1rem;
     font-weight: 700;
@@ -817,7 +810,6 @@ footer {
     text-align: center;
 }
 
-/* ---- Carousel Control Panel ---- */
 .carousel-controls {
     display: flex;
     align-items: center;
@@ -884,7 +876,6 @@ footer {
     outline-offset: 2px;
 }
 
-/* ---- Responsive Carousel ---- */
 @media (max-width: 860px) {
     .carousel-card { width: 300px; }
     .carousel-track { animation-duration: 22s; }
