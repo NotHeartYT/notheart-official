@@ -74,8 +74,14 @@ body {
 
 .nav-links {
     display: flex;
+    align-items: center;
     list-style: none;
     gap: 0.5rem;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
 }
 
 .nav-tab {
@@ -89,6 +95,11 @@ body {
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    line-height: 1;
 }
 
 .nav-tab:hover {
@@ -103,22 +114,21 @@ body {
     border-color: var(--primary-blue);
 }
 
-/* --- EXTERNAL SOCIALS NAV TAB STYLING --- */
+/* --- EXTERNAL SOCIALS NAV TAB STYLING (GOLD THEME & HOVER GLOW) --- */
 .nav-tab-external {
-    display: inline-flex;
-    align-items: center;
+    color: #ffd700 !important;
+    border: 1px solid #ffd700 !important;
+    background: rgba(255, 215, 0, 0.12) !important;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
     gap: 6px;
     text-decoration: none;
-    color: #fbbf24; /* Bright Gold */
-    border: 1px solid rgba(251, 191, 36, 0.4);
-    background: rgba(251, 191, 36, 0.1);
 }
 
 .nav-tab-external:hover {
-    background: rgba(251, 191, 36, 0.25);
-    color: #ffd700;
-    border-color: #ffd700;
-    box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+    background: #ffd700 !important;
+    color: #1e293b !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 0 20px #ffd700, 0 0 35px rgba(255, 215, 0, 0.6) !important;
     transform: translateY(-2px);
 }
 
@@ -408,11 +418,11 @@ h2::after {
 
 /* Short-form 9:16 video (YouTube Shorts) */
 .video-frame--short {
-    padding-bottom: 177.78%; /* 16:9 inverted */
+    padding-bottom: 177.78%;
     max-height: 340px;
 }
 
-/* --- FAQ PROTOCOLS (IMPROVEMENT 1) --- */
+/* --- FAQ PROTOCOLS --- */
 .faq-list {
     list-style: none;
     max-width: 720px;
@@ -437,7 +447,6 @@ h2::after {
     box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
-/* Toggle Row — clickable header */
 .faq-toggle {
     display: flex;
     align-items: center;
@@ -458,7 +467,6 @@ h2::after {
     line-height: 1.35;
 }
 
-/* Icon circle — shows + or − */
 .faq-icon {
     flex-shrink: 0;
     width: 34px;
@@ -476,7 +484,6 @@ h2::after {
     position: relative;
 }
 
-/* Plus sign (default / closed) */
 .faq-icon::before {
     content: '+';
     position: absolute;
@@ -485,7 +492,6 @@ h2::after {
     transform: rotate(0deg) scale(1);
 }
 
-/* Minus sign (open) */
 .faq-icon::after {
     content: '−';
     position: absolute;
@@ -494,7 +500,6 @@ h2::after {
     transform: rotate(-90deg) scale(0.6);
 }
 
-/* Active state: show minus, hide plus, rotate circle color */
 .faq-item.active .faq-icon {
     background: var(--primary-blue);
     transform: rotate(0deg);
@@ -510,12 +515,10 @@ h2::after {
     transform: rotate(0deg) scale(1);
 }
 
-/* Smooth answer drawer */
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.42s cubic-bezier(0.4, 0, 0.2, 1),
-                padding  0.3s ease;
+    transition: max-height 0.42s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
     padding: 0 1.5rem;
     color: #475569;
     text-align: left;
@@ -560,10 +563,11 @@ footer {
     .nav-container.active { left: 0; }
     .nav-links {
         flex-direction: column;
+        align-items: stretch;
         padding: 2rem;
         gap: 1rem;
     }
-    .nav-tab { width: 100%; text-align: left; }
+    .nav-tab { width: 100%; text-align: left; justify-content: flex-start; }
 }
 
 @media (max-width: 600px) {
@@ -663,7 +667,7 @@ footer {
 }
 
 /* ============================================================================
- * IMPROVEMENT 2 — HELP / EXPLAINER SECTION (Home Panel)
+ * HELP / EXPLAINER SECTION
  * ============================================================================ */
 .help-section {
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 41, 59, 0.92) 100%);
