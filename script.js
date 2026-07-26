@@ -14,14 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.addEventListener('click', () => {
             const targetPage = tab.getAttribute('data-target');
 
-            // FIX: If this is an external link (like Socials) without a data-target, ignore panel swapping
-            if (!targetPage) {
-                if (navContainer && navContainer.classList.contains('active')) {
-                    navContainer.classList.remove('active');
-                }
-                return;
-            }
-
             navTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
